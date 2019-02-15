@@ -6,11 +6,27 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 11:31:13 by ezonda            #+#    #+#             */
-/*   Updated: 2019/02/12 13:33:20 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/02/15 16:08:39 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/ft_ls.h"
+
+int		ft_count_blocks(t_var *v)
+{
+	int count;
+
+	count = 0;
+	v->dir = opendir(v->path);
+	while ((diread = readdir(v->dir)))
+	{
+		if (stat(ft_strjoin(v->path, diread->d_name), &st) < 0)
+			return (0);
+		count += st.st_blocks;
+	}
+	closedir(v->dir);
+	return (count);
+}
 
 void	ft_usage(t_var *v, char *str, int mod)
 {
@@ -33,6 +49,7 @@ void	ft_initialize(t_flags *flag, t_var *v)
 {
 	v->path = "./";
 	v->path_end = NULL;
+	v->file_path = 0;
 	flag->l = 0;
 	flag->R = 0;
 	flag->a = 0;
@@ -59,4 +76,3 @@ int		ft_nbrlen(int nb)
 	}
 	return (len);
 }
-

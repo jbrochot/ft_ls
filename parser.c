@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 10:28:46 by ezonda            #+#    #+#             */
-/*   Updated: 2019/02/12 13:54:30 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/02/15 16:08:11 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static int		ft_check_path(char *str, t_var *v)
 			continue ;
 		else if (ft_strcmp(diread->d_name, v->path_end) == 0)
 		{
+			v->file_path = 1;
 			closedir(v->dir);
 			return (ft_strlen(str));
 		}
