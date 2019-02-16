@@ -14,8 +14,8 @@
 
 static char		*ft_get_path(char *str, t_var *v)
 {
-	int start;
-	int end;
+	int			start;
+	int			end;
 
 	start = 0;
 	while (str[start])
@@ -113,6 +113,7 @@ static void		ft_set_flag(char *str, t_flags *flag)
 void			ft_check_flag(int nb, char **av, t_flags *flag, t_var *v)
 {
 	int i;
+	int j = 0;
 
 	i = 1;
 	while (i <= nb)

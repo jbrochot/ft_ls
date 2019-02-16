@@ -56,32 +56,22 @@ void		ft_display_usr_grp(struct stat st)
 
 void		ft_display_long(t_flags *flag, t_var *v)
 {
-	v->len = 0;
-	v->dir = opendir(v->path);
-	while ((diread = readdir(v->dir)) != NULL)
-	{
-		if (v->len < ft_strlen(diread->d_name))
-			v->len = ft_strlen(diread->d_name);
-		v->last = ft_strdup(diread->d_name);
-	}
-	closedir(v->dir);
-//	ft_printf("--path : %s\n", v->path);
+	init_len_n_last(v, flag);
 	ft_printf("total %d\n", ft_count_blocks(v));
 	v->dir = opendir(v->path);
 	while ((diread = readdir(v->dir)) != NULL)
 	{
 		if (flag->a == 0 && diread->d_name[0] == '.')
 			continue ;
-		if (stat(ft_strjoin(v->path, diread->d_name), &st) < 0)
+		if (stat(ft_strjoin(v->path, v->first), &st) < 0)
 			return ;
 		ft_display_type(st);
 		ft_display_rights(st);
-		ft_printf("  %3d", st.st_nlink);
+		ft_printf(" %*d", v->len_link, st.st_nlink);
 		ft_display_usr_grp(st);
-		ft_printf("  %5d", st.st_size);
+		ft_printf(" %*d", v->len_file, st.st_size);
 		ft_printf(" %.24s ", ft_strsub(ctime(&st.st_mtime), 4, 12));
-		ft_print_name(*diread, v);
-//		ft_printf("  %s", diread->d_name);
+		ascii_order(v, flag);
 		ft_printf("\n");
 	}
 	closedir(v->dir);

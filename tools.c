@@ -45,7 +45,7 @@ void	ft_usage(t_var *v, char *str, int mod)
 	}
 }
 
-void	ft_initialize(t_flags *flag, t_var *v)
+void	ft_initialize(t_flags *flag, t_var *v, char **av)
 {
 	v->path = "./";
 	v->path_end = NULL;
@@ -55,6 +55,10 @@ void	ft_initialize(t_flags *flag, t_var *v)
 	flag->a = 0;
 	flag->r = 0;
 	flag->t = 0;
+	v->len = 0;
+	v->len_file = 0;
+	v->len_link = 0;
+	v->path_long = av;
 }
 
 int		ft_nbrlen(int nb)

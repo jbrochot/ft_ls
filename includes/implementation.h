@@ -16,7 +16,7 @@
 # include "struct.h"
 
 void	ft_check_flag(int nb, char **av, t_flags *flag, t_var *v);
-void	ft_initialize(t_flags *flag, t_var *v);
+void	ft_initialize(t_flags *flag, t_var *v, char **av);
 void	ft_usage(t_var *v, char *str, int mod);
 void	ft_display(t_flags *flag, t_var *var);
 void	ft_display_long(t_flags *flag, t_var *var);
@@ -24,10 +24,16 @@ void	ft_display_std(t_flags *flag, t_var *var);
 void	ft_display_type(struct stat st);
 void	ft_display_rights(struct stat st);
 void	ft_display_usr_grp(struct stat st);
-int		ft_ls_no_flag(t_var *v);
+int		ft_ls_no_flag(t_var *v, t_flags *f);
 void	ft_print_name(struct dirent diread, t_var *v);
 void	ft_recursive_flag(char *str, t_flags *flag, t_var *v);
 int		ft_nbrlen(int nb);
 int		ft_count_blocks(t_var *v);
+void	init_len_n_last(t_var *v, t_flags *f);
+void	ascii_order(t_var *v, t_flags *f);
+void	ft_print(t_var *v);
+int		count_lenf(int nb);
+void	init_rev(t_var *v, t_flags *f);
+void	ascii_rev(t_var *v, t_flags *f);
 
 #endif

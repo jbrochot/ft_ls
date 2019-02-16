@@ -26,7 +26,10 @@ typedef struct s_var
 	char	invalid;
 	char	*path;
 	char	*path_end;
+	char	**path_long;
 	int		len;
+	int		len_file;
+	int		len_link;
 	char	*first;
 	char	*mid;
 	char	*last;
