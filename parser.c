@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 10:28:46 by ezonda            #+#    #+#             */
-/*   Updated: 2019/02/15 16:08:11 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/02/19 15:51:03 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static int		ft_check_path(char *str, t_var *v)
 	}
 	else
 	{
+		v->c_dir = 1;
 		v->path = ft_strjoin(str, "/");
 		return (ft_strlen(str));
 	}

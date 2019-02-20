@@ -6,13 +6,13 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/06 12:42:44 by ezonda            #+#    #+#             */
-/*   Updated: 2019/02/15 16:21:20 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/02/20 16:30:59 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/ft_ls.h"
 
-void		ft_display_type(struct stat st)
+void		ft_display_type(struct stat st, t_var *v)
 {
 	if (S_ISDIR(st.st_mode))
 		ft_printf("d");
@@ -21,7 +21,10 @@ void		ft_display_type(struct stat st)
 	else if (S_ISBLK(st.st_mode))
 		ft_printf("b");
 	else if (S_ISLNK(st.st_mode))
+	{
 		ft_printf("l");
+		v->is_link = 1;
+	}
 	else if (S_ISFIFO(st.st_mode))
 		ft_printf("p");
 	else if (S_ISSOCK(st.st_mode))
@@ -54,25 +57,45 @@ void		ft_display_usr_grp(struct stat st)
 	ft_printf("  %s", grp->gr_name);
 }
 
+void		ft_get_link(t_var *v, char *pathname)
+{
+	char		*buff;
+	ssize_t		nbytes;
+
+	if (!(buff = ft_strnew(v->len)))
+		return ;
+	nbytes = readlink(pathname, buff, sizeof(buff));
+	ft_printf("-> %s", buff);
+	v->is_link = 0;
+	printf("\n");
+}
+
 void		ft_display_long(t_flags *flag, t_var *v)
 {
+	char		*pathname;
+
 	init_len_n_last(v, flag);
 	ft_printf("total %d\n", ft_count_blocks(v));
 	v->dir = opendir(v->path);
 	while ((diread = readdir(v->dir)) != NULL)
 	{
+		pathname = ft_strjoin(v->path, v->first);
 		if (flag->a == 0 && diread->d_name[0] == '.')
 			continue ;
 		if (stat(ft_strjoin(v->path, v->first), &st) < 0)
 			return ;
-		ft_display_type(st);
+		if (lstat(ft_strjoin(v->path, v->first), &st) < 0)
+			return ;
+		ft_display_type(st, v);
 		ft_display_rights(st);
-		ft_printf(" %*d", v->len_link, st.st_nlink);
+		ft_printf("  %*d", v->len_link, st.st_nlink);
 		ft_display_usr_grp(st);
-		ft_printf(" %*d", v->len_file, st.st_size);
-		ft_printf(" %.24s ", ft_strsub(ctime(&st.st_mtime), 4, 12));
+		ft_printf("  %*d", v->len_file, st.st_size);
+		ft_printf(" %s ", /*ft_strsub(*/ctime(&st.st_mtime)/*, 4, 12)*/);
 		ascii_order(v, flag);
-		ft_printf("\n");
+		if (v->is_link == 1)
+			ft_get_link(v, pathname);
+		free(pathname);
 	}
 	closedir(v->dir);
 }

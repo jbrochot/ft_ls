@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 11:31:13 by ezonda            #+#    #+#             */
-/*   Updated: 2019/02/15 16:08:39 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/02/19 17:18:43 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	ft_initialize(t_flags *flag, t_var *v, char **av)
 	v->path = "./";
 	v->path_end = NULL;
 	v->file_path = 0;
+	v->is_link = 0;
 	flag->l = 0;
 	flag->R = 0;
 	flag->a = 0;
@@ -59,6 +60,7 @@ void	ft_initialize(t_flags *flag, t_var *v, char **av)
 	v->len_file = 0;
 	v->len_link = 0;
 	v->path_long = av;
+	v->c_dir = 0;
 }
 
 int		ft_nbrlen(int nb)

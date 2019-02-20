@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 18:22:14 by ezonda            #+#    #+#             */
-/*   Updated: 2019/02/15 14:48:10 by ezonda           ###   ########.fr       */
+/*   Updated: 2019/02/19 17:01:49 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,15 @@ static void		ft_stock_names(char *strpath, char **stock, t_flags *flag)
 	closedir(dir);
 }
 
-/*static void		ft_init_path(t_var *v, char *str, char *stock)
+static void		ft_init_path(t_var *v, char *str, char *stock)
 {
+	free(v->p_stat);
+	free(v->p_slash);
+	free(v->p_recu);
 	v->p_stat = ft_strjoin(str, stock);
 	v->p_slash = ft_strjoin(stock, "/");
 	v->p_recu = ft_strjoin(str, v->p_slash);
-}*/
+}
 
 void			ft_recursive_flag(char *str, t_flags *flag, t_var *v)
 {
@@ -72,14 +75,16 @@ void			ft_recursive_flag(char *str, t_flags *flag, t_var *v)
 	i = 0;
 	v->path = str;
 	name_count = ft_count_names(v->path, flag);
-	if (!stock)
-		if (!(stock = (char**)malloc(sizeof(char*) * name_count + 1)))
-			return ;
+	if (!(stock = (char**)malloc(sizeof(char*) * name_count + 1)))
+		return ;
 	ft_stock_names(v->path, stock, flag);
 	flag->R = 0;
-	printf("%s:\n", v->path);
+//	ft_printf("%s:\n", v->path);
+	ft_putstr(v->path);
+	ft_putstr(":\n");
 	ft_display(flag, v);
-	printf("\n\n");
+	ft_putstr("\n\n");
+//	ft_printf("\n\n");
 	while (stock[i])
 	{
 //		ft_init_path(v, str, stock[i]);
@@ -87,6 +92,7 @@ void			ft_recursive_flag(char *str, t_flags *flag, t_var *v)
 			return ;
 		if (S_ISDIR(st.st_mode))
 			ft_recursive_flag(ft_strjoin(str, ft_strjoin(stock[i], "/")), flag, v);
+//		free(stock[i]);
 		i++;
 	}
 }
