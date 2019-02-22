@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 10:28:46 by ezonda            #+#    #+#             */
-/*   Updated: 2019/02/19 15:51:03 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/21 12:24:10 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int		ft_check_path(char *str, t_var *v)
 
 static int		ft_check_str(char *str, t_var *v, t_flags *flag)
 {
-	int i;
+	size_t i;
 
 	i = 0;
 	flag->mod = 0;
@@ -114,7 +114,6 @@ static void		ft_set_flag(char *str, t_flags *flag)
 void			ft_check_flag(int nb, char **av, t_flags *flag, t_var *v)
 {
 	int i;
-	int j = 0;
 
 	i = 1;
 	while (i <= nb)

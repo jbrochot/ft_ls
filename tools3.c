@@ -6,13 +6,23 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 13:45:34 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/02/20 16:26:35 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/22 15:40:06 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/ft_ls.h"
 
-void	initialize_stock_dir(t_var *v, int ac)
+int		len_stock(t_var *v)
+{
+	int i;
+
+	i = 0;
+	while (v->path_long[i])
+		i++;
+	return i;
+}
+
+void	initialize_stock_dir(t_var *v)
 {
 	int i;
 	int j;
@@ -68,7 +78,7 @@ char	**rev_order(char **tab)
 	return (tab_save);
 }
 
-void	padding_multi(t_var *v, t_flags *f)
+void	padding_multi(t_var *v)
 {
 	int i;
 	int j;
@@ -85,39 +95,10 @@ void	padding_multi(t_var *v, t_flags *f)
 			j++;
 		}
 		if (i < j)
-			padding_initialisation(v, f);
+			padding_initialisation(v);
 		i = 1;
 		j = 1;
 	}
 	closedir(v->dir);
 }
 
-void	init_flag_t(t_var *v, t_flags *f)
-{
-	int i;
-
-	i = 0;
-	v->dir = opendir(v->path);
-	while ((diread = readdir(v->dir)) != NULL)
-	{
-		if (f->a == 0 && diread->d_name[0] == '.')
-			continue ;
-		if (stat(ft_strjoin(v->path, diread->d_name), &st) < 0)
-			return ;
-		if (i == 0)
-			v->time = ft_strsub(ctime(&st.st_mtime), 4, 12);
-		if (i == 0)
-			v->time_l = ft_strsub(ctime(&st.st_mtime), 4, 12);
-		if (ft_strcmp(ft_strsub(ctime(&st.st_mtime), 4, 12), v->time) >= 0)
-		{
-			v->first = diread->d_name;
-			v->time = ft_strsub(ctime(&st.st_mtime), 4, 12);
-		}
-		if (ft_strcmp(ft_strsub(ctime(&st.st_mtime), 4, 12), v->time_l) <= 0)
-		{
-			v->last = diread->d_name;
-			v->time_l = ft_strsub(ctime(&st.st_mtime), 4, 12);
-		}
-	}
-	printf("\nf:%sl:%s\n", v->first, v->last);
-}

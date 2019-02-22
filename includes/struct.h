@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 13:38:57 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/02/20 16:25:00 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/22 16:11:33 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ typedef struct s_var
 	char	**path_long;
 	char	**stock_d;
 	int		c_dir;
-	int		len;
+	size_t	len;
 	int		len_file;
 	int		len_link;
-	char	*time;
-	char	*time_l;
+	time_t	time;
+	time_t	time_m;
+	time_t	time_l;
 	char	*first;
 	char	*mid;
 	char	*last;

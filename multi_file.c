@@ -6,11 +6,40 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 13:38:20 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/02/19 18:00:39 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/22 16:11:29 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/ft_ls.h"
+
+int		time_arg(t_var *v, char *s)
+{
+	int i;
+
+	i = 0;
+	while (v->path_long[i])
+	{
+		if (ft_strcmp(v->path_long[i], s) == 0)
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
+void	time_path(t_var *v, t_flags *f)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (v->path_long[i])
+	{
+		if (stat(ft_strjoin(v->path, v->path_long[i]), &st) < 0)
+			return ;
+
+	}
+}
 
 void	stock_dir(char *str, t_var *v)
 {

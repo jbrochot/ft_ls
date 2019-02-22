@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/16 14:34:54 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/02/20 15:41:10 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/21 15:01:06 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ void	init_rev(t_var *v, t_flags *f)
 	}
 }
 
-void	init_last(t_var *v, int ac, t_flags *f)
+void	init_last(t_var *v, int ac)
 {
 	int j;
-	int i;
 
 	j = -1;
 	while (++j < ac)
@@ -51,10 +50,10 @@ void	init_last(t_var *v, int ac, t_flags *f)
 	while (++j < ac)
 		if (v->len < ft_strlen(v->path_long[j]))
 			v->len = ft_strlen(v->path_long[j]);
-	padding_multi(v, f);
+	padding_multi(v);
 }
 
-void	ascii_init(t_var *v, int ac, t_flags *f)
+void	ascii_init(t_var *v, int ac)
 {
 	int		i;
 	int		j;
@@ -79,10 +78,10 @@ void	ascii_init(t_var *v, int ac, t_flags *f)
 		j++;
 		i = 1;
 	}
-	init_last(v, ac, f);
+	init_last(v, ac);
 }
 
-void	ascii_rev(t_var *v, t_flags *f)
+void	ascii_rev(t_var *v)
 {
 	static int i;
 

@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 18:22:14 by ezonda            #+#    #+#             */
-/*   Updated: 2019/02/19 17:01:49 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/21 16:53:41 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,6 @@ static void		ft_stock_names(char *strpath, char **stock, t_flags *flag)
 	}
 	stock[i] = NULL;
 	closedir(dir);
-}
-
-static void		ft_init_path(t_var *v, char *str, char *stock)
-{
-	free(v->p_stat);
-	free(v->p_slash);
-	free(v->p_recu);
-	v->p_stat = ft_strjoin(str, stock);
-	v->p_slash = ft_strjoin(stock, "/");
-	v->p_recu = ft_strjoin(str, v->p_slash);
 }
 
 void			ft_recursive_flag(char *str, t_flags *flag, t_var *v)

@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 11:31:13 by ezonda            #+#    #+#             */
-/*   Updated: 2019/02/19 17:18:43 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/22 14:46:49 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int		ft_count_blocks(t_var *v)
 	while ((diread = readdir(v->dir)))
 	{
 		if (stat(ft_strjoin(v->path, diread->d_name), &st) < 0)
+			return (0);
+		if (lstat(ft_strjoin(v->path, diread->d_name), &st) < 0)
 			return (0);
 		count += st.st_blocks;
 	}
@@ -61,6 +63,8 @@ void	ft_initialize(t_flags *flag, t_var *v, char **av)
 	v->len_link = 0;
 	v->path_long = av;
 	v->c_dir = 0;
+	v->time_m = 0;
+	v->mid = NULL;
 }
 
 int		ft_nbrlen(int nb)

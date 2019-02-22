@@ -6,7 +6,7 @@
 #    By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/19 21:42:39 by jebrocho          #+#    #+#              #
-#    Updated: 2019/02/07 16:37:40 by ezonda           ###   ########.fr        #
+#    Updated: 2019/02/21 12:41:19 by ezonda           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,22 +36,18 @@ CC = gcc
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@echo "Compilation progress..."
 	@$(CC) -c $(SRC)
 	@make -C printf/
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
 	@libtool -static -o $(NAME) $(NAME) $(NAME2)
-	@echo "done."
 
 %.o: %.c
 	@$(CC) -o $@ -c $< $(FLAGS)
 
 clean:
-	@echo "cleaning..."
 	@make clean -C printf/
 	@rm -f $(OBJ)
-	@echo "done."
 
 fclean: clean
 	@make fclean -C printf/
