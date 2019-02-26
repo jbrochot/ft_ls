@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 13:43:07 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/02/22 15:41:30 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/26 10:27:46 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	padding_initialisation(t_var *v);
 void	init_flag_t(t_var *v, t_flags *f);
 void	time_order(t_var *v, t_flags *f);
 int		len_stock(t_var *v);
-void	time_path(t_var *v, t_flags *f);
+void	time_path(t_var *v, int ac);
+int		cmp_time(time_t s1, time_t s2);
 
 #endif

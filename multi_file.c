@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 13:38:20 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/02/22 16:11:29 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/26 13:17:53 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,78 @@ int		time_arg(t_var *v, char *s)
 	return (i);
 }
 
-void	time_path(t_var *v, t_flags *f)
+void	ascii_time_path(t_var *v, int ac)
 {
-	int i;
-	int j;
+	char	*tmp;
+	int		i;
+	int		j;
 
-	i = 0;
-	j = 0;
-	while (v->path_long[i])
+	i = 1;
+	j = 1;
+	while (j < ac)
 	{
-		if (stat(ft_strjoin(v->path, v->path_long[i]), &st) < 0)
-			return ;
-
+		if (stat(ft_strjoin(v->path, v->path_long[j]), &st) < 0)
+		{
+			j++;
+			continue ;
+		}
+		v->time = st.st_mtime;
+		while (i < ac)
+		{
+			if (stat(ft_strjoin(v->path, v->path_long[i]), &st) < 0)
+			{
+				i++;
+				continue ;
+			}
+			if (cmp_time(v->time, st.st_mtime) == 0
+				&& ft_strcmp(v->path_long[j], v->path_long[i]) < 0)
+			{
+				tmp = ft_strdup(v->path_long[i]);
+				v->path_long[i] = ft_strdup(v->path_long[j]);
+				v->path_long[j] = ft_strdup(tmp);
+			}
+			i++;
+		}
+		i = 1;
+		j++;
 	}
+}
+
+void	time_path(t_var *v, int ac)
+{
+	char	*tmp;
+	int		i;
+	int		j;
+
+	j = 1;
+	i = 1;
+	while (j < ac)
+	{
+		if (stat(ft_strjoin("./", v->path_long[j]), &st) < 0)
+		{
+			j++;
+			continue ;
+		}
+		v->time = st.st_mtime;
+		while (i < ac)
+		{
+			if (stat(ft_strjoin("./", v->path_long[i]), &st) < 0)
+			{
+				i++;
+				continue ;
+			}
+			if (cmp_time(v->time, st.st_mtime) > 0)
+			{
+				tmp = ft_strdup(v->path_long[j]);
+				v->path_long[j] = ft_strdup(v->path_long[i]);
+				v->path_long[i] = ft_strdup(tmp);
+			}
+			i++;
+		}
+		i = 1;
+		j++;
+	}
+	ascii_time_path(v, ac);
 }
 
 void	stock_dir(char *str, t_var *v)
@@ -64,13 +123,13 @@ void	display_multi(t_var *v, t_flags *f)
 {
 	int i;
 
-	i = 0;
-	while (v->path_long[i + 1])
+	i = 1;
+	while (v->path_long[i])
 	{
-		i++;
 		if (is_directory(v->path_long[i], v) == 1)
 		{
 			stock_dir(v->path_long[i], v);
+			i++;
 			continue ;
 		}
 		if (v->path_long[i][0] != '-')
@@ -79,6 +138,7 @@ void	display_multi(t_var *v, t_flags *f)
 			v->path = "./";
 			ft_print_file_path(f, v);
 		}
+		i++;
 	}
 	i = 0;
 	while (v->stock_d[i])

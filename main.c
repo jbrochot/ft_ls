@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/06 16:09:17 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/02/22 15:48:35 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/26 13:15:00 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		main(int ac, char **av)
 		ft_check_flag(ac - 1, av, &flag, &v);
 	if (flag.t == 1 && v.file_path == 1)
 	{
-		time_path(&v, &flag);
+		time_path(&v, ac);
 		init_last(&v, ac);
 	}
 	if (flag.r == 1 && v.file_path == 1)

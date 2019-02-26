@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 13:45:34 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/02/22 15:40:06 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/26 11:06:40 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	**rev_order(char **tab)
 		i--;
 	}
 	tab_save[j] = NULL;
-	ft_strdel(tab);
+//	ft_strdel(tab);
 	return (tab_save);
 }
 

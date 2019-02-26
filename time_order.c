@@ -6,7 +6,7 @@
 /*   By: jebrocho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/21 15:41:52 by jebrocho          #+#    #+#             */
-/*   Updated: 2019/02/22 16:11:30 by jebrocho         ###   ########.fr       */
+/*   Updated: 2019/02/26 13:45:49 by jebrocho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 int		cmp_time(time_t s1, time_t s2)
 {
 	return (s1 - s2);
+}
+
+void	ascii_time_rev(t_var *v, char *s)
+{
+	if (ft_strcmp(v->first, v->mid) == 0
+			&& (ft_strcmp(v->first, s) > 0))
+		v->mid = ft_strdup(s);
+	if ((ft_strcmp(v->first, s) > 0)
+			&& (ft_strcmp(v->mid, s) < 0))
+		v->mid = ft_strdup(s);
 }
 
 void	ascii_time(t_var *v, t_flags *f)
@@ -28,16 +38,52 @@ void	ascii_time(t_var *v, t_flags *f)
 			return ;
 		if (cmp_time(v->time, st.st_mtime) == 0)
 		{
+			if (f->r == 1)
+			{
+				ascii_time_rev(v, diread->d_name);
+				continue ;
+			}
 			if (ft_strcmp(v->first, v->mid) == 0
-				&& (ft_strcmp(v->first, diread->d_name) < 0))
+					&& (ft_strcmp(v->first, diread->d_name) < 0))
 				v->mid = ft_strdup(diread->d_name);
 			if ((ft_strcmp(v->first, diread->d_name) < 0)
-				&& (ft_strcmp(v->mid, diread->d_name) > 0))
+					&& (ft_strcmp(v->mid, diread->d_name) > 0))
 				v->mid = ft_strdup(diread->d_name);
 		}
 	}
 	v->first = v->mid;
 	closedir(v->save);
+}
+
+void	time_rev(t_var *v)
+{
+//	ft_printf("\n%d\n", cmp_time(v->time, st.st_mtime));
+	if ((cmp_time(v->time, st.st_mtime)) > 0 && v->time_m == 0)
+	{
+		v->time_m = st.st_mtime;
+		v->mid = ft_strdup(diread->d_name);
+	}
+	if (cmp_time(v->time, v->time_m) == 0
+			&& cmp_time(v->time, st.st_mtime) < 0)
+	{
+		v->time_m = st.st_mtime;
+		v->mid = ft_strdup(diread->d_name);
+	}
+	if (cmp_time(v->time, st.st_mtime) < 0
+			&& cmp_time(v->time_m, st.st_mtime) >= 0)
+	{
+		if (cmp_time(v->time_m, st.st_mtime) == 0
+				&& ft_strcmp(v->mid, diread->d_name) < 0)
+		{
+			v->time_m = st.st_mtime;
+			v->mid = ft_strdup(diread->d_name);
+		}
+		else if (cmp_time(v->time_m, st.st_mtime) > 0)
+		{
+			v->time_m = st.st_mtime;
+			v->mid = ft_strdup(diread->d_name);
+		}
+	}
 }
 
 void	time_order(t_var *v, t_flags *f)
@@ -53,22 +99,29 @@ void	time_order(t_var *v, t_flags *f)
 			continue ;
 		if (stat(ft_strjoin(v->path, diread->d_name), &st) < 0)
 			return ;
+//		if (ft_strcmp(diread->d_name, v->first) == 0)
+//			ft_printf("\nf:%dm:%d\n", v->time, st.st_mtime);
+		if (f->r == 1)
+		{
+			time_rev(v);
+			continue ;
+		}
 		if ((cmp_time(v->time, st.st_mtime)) > 0 && v->time_m == 0)
 		{
 			v->time_m = st.st_mtime;
 			v->mid = ft_strdup(diread->d_name);
 		}
 		if (cmp_time(v->time, v->time_m) == 0
-			&& cmp_time(v->time, st.st_mtime) > 0)
+				&& cmp_time(v->time, st.st_mtime) > 0)
 		{
-				v->time_m = st.st_mtime;
-				v->mid = ft_strdup(diread->d_name);
+			v->time_m = st.st_mtime;
+			v->mid = ft_strdup(diread->d_name);
 		}
 		if (cmp_time(v->time, st.st_mtime) > 0
-			&& cmp_time(v->time_m, st.st_mtime) <= 0)
+				&& cmp_time(v->time_m, st.st_mtime) <= 0)
 		{
 			if (cmp_time(v->time_m, st.st_mtime) == 0
-				&& ft_strcmp(v->mid, diread->d_name) > 0)
+					&& ft_strcmp(v->mid, diread->d_name) > 0)
 			{
 				v->time_m = st.st_mtime;
 				v->mid = ft_strdup(diread->d_name);
@@ -81,6 +134,7 @@ void	time_order(t_var *v, t_flags *f)
 		}
 	}
 	closedir(v->save);
+//	ft_printf("\nf:%sm:%s\n", v->first, v->mid);
 	if (ft_strcmp(v->first, v->mid) == 0)
 		ascii_time(v, f);
 	v->first = v->mid;
